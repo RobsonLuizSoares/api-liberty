@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const lojaValidation = require('../../../controllers/validacoes/lojaValidation.js')
 const auth = require('../../auth')
-const LojaController = require('../../../controllers/lojaController')
+const LojaController = require('../../../controllers/LojaController')
 
 const lojaController = new LojaController()
 

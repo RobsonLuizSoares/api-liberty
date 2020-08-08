@@ -1,7 +1,7 @@
 const router = require('express').Router()
 
 const auth = require('../../auth')
-const UsuarioController = require('../../../controllers/usuarioController')
+const UsuarioController = require('../../../controllers/UsuarioController')
 
 const usuarioController = new UsuarioController()
 
