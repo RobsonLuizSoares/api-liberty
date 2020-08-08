@@ -4,7 +4,7 @@ const secret = require("../config").secret;
 function getTokenFromHeader(req) {
     if (!req.headers.authorization) return null;
     const token = req.headers.authorization.split(" ");
-    if (token[0] !== "Liberty") return null;
+    if (token[0] !== process.env.PREFIX_TOKEN) return null;
     return token[1];
 }
 

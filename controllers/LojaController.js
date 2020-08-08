@@ -25,7 +25,7 @@ class LojaController {
 
         const error = []
         if (!nome) error.push('nome')
-        if (error.length > 0) return res.status(422).json({ error: 'requi', payload: error })
+        if (error.length > 0) return res.status(422).json({ error: 'required', payload: error })
 
         const loja = new Loja({ nome })
         loja.save().then(() => res.send({ loja })).catch(next)

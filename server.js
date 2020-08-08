@@ -4,6 +4,8 @@ const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const morgan = require('morgan')
 const cors = require('cors')
+const path = require('path')
+require('dotenv').config()
 const PORT = process.env.PORT || 3333
 
 const app = express()
@@ -16,7 +18,6 @@ const { mongoUri } = require('./config/database')
 mongoose.connect(mongoUri, { useNewUrlParser: true })
 
 app.set('view engine', 'ejs')
-
 app.use(morgan('dev'))
 app.use(cors())
 app.disable('x-powered-by')
