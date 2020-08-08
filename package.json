@@ -4,7 +4,8 @@
   "description": "api para sistema de gestão da Liberty",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js",
+    "dev": "nodemon server.js",
+    "start": "node server.js",
     "build": "NODE_ENV=production pm2 start server.js --name=\"liberty-api\" "
   },
   "keywords": [
