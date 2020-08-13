@@ -5,16 +5,16 @@ const Usuario = mongoose.model("Usuario");
 class UsuarioController {
 
     // GET /
-    index(req, res, next) {
-        Usuario.findById(req.payload.id).then(usuario => {
+    async index(req, res, next) {
+        const user = await Usuario.findById(req.payload.id).then(usuario => {
             if (!usuario) return res.status(401).json({ errors: "Usuario não registrado" });
             return res.json({ usuario: usuario.enviarAuthJSON() });
         }).catch(next);
     }
 
     // GET /:id
-    show(req, res, next) {
-        Usuario.findById(req.params.id)
+    async show(req, res, next) {
+        const user = await Usuario.findById(req.params.id)
             .populate({ path: "loja" })
             .then(usuario => {
                 if (!usuario) return res.status(401).json({ errors: "Usuario não registrado" });
@@ -30,13 +30,13 @@ class UsuarioController {
     }
 
     // POST /registrar
-    store(req, res, next) {
+    async store(req, res, next) {
         const { nome, email, password, loja } = req.body;
 
         const usuario = new Usuario({ nome, email, loja });
         usuario.setSenha(password);
 
-        usuario.save()
+        await usuario.save()
             .then(() => res.json({ usuario: usuario.enviarAuthJSON() }))
             .catch((err) => {
                 console.log(err);
@@ -45,9 +45,9 @@ class UsuarioController {
     }
 
     // PUT /
-    update(req, res, next) {
+    async update(req, res, next) {
         const { nome, email, password } = req.body;
-        Usuario.findById(req.payload.id).then((usuario) => {
+        const userUpdated = await Usuario.findById(req.payload.id).then((usuario) => {
             if (!usuario) return res.status(401).json({ errors: "Usuario não registrado" });
             if (typeof nome !== "undefined") usuario.nome = nome;
             if (typeof email !== "undefined") usuario.email = email;
@@ -60,8 +60,8 @@ class UsuarioController {
     }
 
     // DELETE /
-    remove(req, res, next) {
-        Usuario.findById(req.payload.id).then(usuario => {
+    async remove(req, res, next) {
+        const userRemoved = Usuario.findById(req.payload.id).then(usuario => {
             if (!usuario) return res.status(401).json({ errors: "Usuario não registrado" });
             return usuario.remove().then(() => {
                 return res.json({ deletado: true });
@@ -70,9 +70,10 @@ class UsuarioController {
     }
 
     // POST /login
-    login(req, res, next) {
+    async login(req, res, next) {
         const { email, password } = req.body;
-        Usuario.findOne({ email }).then((usuario) => {
+
+        const user = await Usuario.findOne({ email }).then((usuario) => {
             if (!usuario) return res.status(401).json({ errors: "Usuario não registrado" });
             if (!usuario.validarSenha(password)) return res.status(401).json({ errors: "Senha inválida" });
             return res.json({ usuario: usuario.enviarAuthJSON() });
